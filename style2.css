@@ -1,73 +1,214 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-  }
-
-a {
-    text-decoration: none;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-  .search-container {
-    text-align: center;
-    margin: 20px 0;
-  }
+a {
+  text-decoration: none;
+}
 
-  .search-container input {
-    padding: 10px;
-    font-size: 1em;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+.header {
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  height: 55px;
+}
 
-  .search-container button {
-    padding: 10px 20px;
-    font-size: 1em;
-    background-color: #0073e6;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.logo_menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
 
-  .search-container button:hover {
-    background-color: #005bb5;
-  }
+.hum {
+  display: flex;
+  flex-direction: column;
+  width: 30px;
+  height: 13px;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 1001; /* メニューより前面に表示 */
+  margin-left: 27px;
+  margin-right: 10px;
+}
 
-  .videos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    max-width: 1800px;
-    margin: 0 auto;
-  }
+.header .logo_menu .hum span {
+  width: 18px;
+  height: 1px;
+  background-color: #000000;
+}
 
-  .video-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-  }
+.header .logo_menu .hum span:nth-child(1) {
+  transform-origin: top left;
+}
 
-  .video-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
+.heade .logo_menu .hum span:nth-child(2) {
+  width: 18px;
+  height: 1px;
+}
 
-  .video-card img {
-    width: 100%;
-    height: auto;
-  }
+.header .logo_menu .hum span:nth-child(3) {
+  transform-origin: bottom left;
+}
 
-  .video-title {
-    padding: 10px;
-    font-size: 1em;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-  }
+.side_menu {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 240px;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 1001;
+  transition: ease 0.27s;
+}
+
+.side_menu.open {
+  left: 0;
+}
+
+.side_menu .hum {
+  position: relative;
+  top: 21px;
+  padding-right: 11px;
+}
+
+.logo-a {
+  display: none;
+}
+
+.side_menu.open a img {
+  top: 1px;
+  width: 57%;
+  display: block;
+  position: relative;
+}
+
+.side_menu.open a {
+  display: block;
+  height: 49px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* 不透明な黒 */
+  z-index: 1000;
+  display: none; /* 初期状態で非表示 */
+  transition: visibility 0.27s;
+  visibility: hidden;  /* 初期状態は透明 */
+}
+
+.overlay.active {
+  display: block; /* オーバーレイを表示 */
+  visibility: visible;
+}
+
+.header a .logo-b {
+  width: 100px;
+}
+
+.header a {
+    overflow: hidden; /* 内容がはみ出さないようにする */
+}
+
+.search-container {
+  text-align: center;
+  display: block;
+}
+
+.search-container {
+    display: flex;;
+    margin-left: 915px;
+    margin-right: 1085px;
+}
+
+.search-container input {
+  padding: 10px;
+  font-size: 1em;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-top-left-radius: 25px;
+  border-end-start-radius: 25px;
+}
+
+.search-container button {
+  padding: 10px 10px;
+  margin: 0;
+  color: #666666;
+  border: solid 1px #ccc;
+  border-top-right-radius: 25px;
+  border-end-end-radius: 25px;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: #005bb5;
+}
+
+#videos {
+  position: relative;
+  top: 70px;
+}
+
+.videos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1800px;
+  margin: 0 auto;
+  perspective: 1000px;
+  transform-style: preserve-3d; /* 3D変換を反映させる */
+}
+
+.video-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.video-card:hover {
+  transform: scale(1.02);
+  transition: all 0.3s;
+  box-shadow: 0 0 20px rgb(0, 132, 255);
+}
+
+.video-card img {
+  width: 100%;
+  height: auto;
+}
+
+.video-titles  {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.video-title {
+    display: flex;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-weight: 430;
+  color: #333;
+  text-align: left;
+  
+}
+
+#video-title-icon {
+    display: flex;
+    width: 30px;
+    height: 5%;
+    border-radius: 50px;
+}
