@@ -80,7 +80,11 @@ async function searchVideos(query) {
           <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${video.snippet.title}">
           <div class="video-titles">
             <img id="video-title-icon" src="icon.jpg" alt="">
-            <div class="video-title">${video.snippet.title}</div>
+            <div class="video-title">${video.snippet.title}
+            
+            </div>
+            <p class="ch-name">ジャルジャルアイランド JARUJARU ISLAND</p>
+            
           </div>
         </a>
       `;
@@ -91,55 +95,106 @@ async function searchVideos(query) {
     alert("エラーが発生しました。もう一度お試しください。");
   }
 }
+// 動画詳細を取得する関数
+async function fetchVideoDetails(videoId) {
+  const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    console.error("動画詳細の取得に失敗しました");
+    return null;
+  }
+  const data = await response.json();
+  return data.items[0]?.snippet.publishedAt || null; // 公開日を返す
+}
 
-// 動画を表示する関数（検索していない場合）
-async function displayVideos() {
+// 動画を表示する関数（ランダム性をさらに高め、正しい公開日を表示）
+
+document.querySelectorAll(".list a").forEach((link) => {
+  link.addEventListener("click", async (event) => {
+    event.preventDefault(); // デフォルト動作を無効化
+
+    // 選択されたプレイリストIDを取得
+    const playlistId = event.target.getAttribute("data-playlist-id");
+
+    if (playlistId) {
+      console.log(`選択されたプレイリストID: ${playlistId}`); // デバッグ用
+      await displayVideosByPlaylist(playlistId); // プレイリストに基づいて動画を表示
+    } else {
+      console.error("プレイリストIDが取得できませんでした。");
+    }
+  });
+});
+
+
+
+
+// 初期表示時に特定のプレイリストを表示
+document.addEventListener("DOMContentLoaded", () => {
+  const initialPlaylistId = "PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5"; // 初期表示するプレイリストID
+  displayVideosByPlaylist(initialPlaylistId);
+});
+
+// 各リンクにイベントリスナーを追加してクリック時にプレイリストを表示
+document.querySelectorAll(".list a").forEach((link) => {
+  link.addEventListener("click", async (event) => {
+    event.preventDefault(); // デフォルト動作を無効化
+    const playlistId = event.target.getAttribute("data-playlist-id");
+
+    if (playlistId) {
+      console.log(`選択されたプレイリストID: ${playlistId}`); // デバッグ用
+      await displayVideosByPlaylist(playlistId); // プレイリストを表示
+    } else {
+      console.error("プレイリストIDが取得できませんでした。");
+    }
+  });
+});
+
+// プレイリストの動画を表示する関数
+async function displayVideosByPlaylist(playlistId) {
   try {
-    const initialData = await fetchPlaylistVideos(PLAYLIST_ID, 1); // 最初に取得（nextPageTokenを得るため）
-    const totalPages = Math.ceil(initialData.pageInfo.totalResults / MAX_RESULTS);
+    let allVideos = [];
+    let nextPageToken = "";
 
-    // ランダムなページ番号を選ぶ
-    const randomPage = Math.floor(Math.random() * totalPages);
-
-    // ランダムなページへ移動する
-    let pageToken = "";
-    for (let i = 0; i < randomPage; i++) {
-      const nextPageData = await fetchPlaylistVideos(PLAYLIST_ID, MAX_RESULTS, pageToken);
-      pageToken = nextPageData.nextPageToken || ""; // 次ページのトークンを取得
+    while (true) {
+      const data = await fetchPlaylistVideos(playlistId, MAX_RESULTS, nextPageToken);
+      allVideos = allVideos.concat(data.items);
+      nextPageToken = data.nextPageToken || "";
+      if (!nextPageToken) break; // 次ページがなければ終了
     }
 
-    // 選ばれたページから動画を取得
-    const data = await fetchPlaylistVideos(PLAYLIST_ID, MAX_RESULTS, pageToken);
-    const videos = shuffleArray(data.items); // シャッフル
-    const videosContainer = document.getElementById("videos");
-    videosContainer.innerHTML = ""; // 前回の結果をクリア
-
-    if (videos.length === 0) {
-      videosContainer.innerHTML = "<p>動画が見つかりませんでした。</p>";
+    if (allVideos.length === 0) {
+      document.getElementById("videos").innerHTML = "<p>動画が見つかりませんでした。</p>";
       return;
     }
 
-    // 各動画を表示
-    videos.forEach((video) => {
+    // シャッフルして表示
+    const shuffledVideos = shuffleArray(allVideos);
+    const videosContainer = document.getElementById("videos");
+    videosContainer.innerHTML = ""; // 前回の結果をクリア
+
+    shuffledVideos.forEach((video) => {
       const videoId = video.snippet.resourceId.videoId;
+      const videoTitle = video.snippet.title;
+
       const videoCard = document.createElement("div");
       videoCard.className = "video-card";
       videoCard.innerHTML = `
         <a href="video.html?videoId=${videoId}">
-          <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${video.snippet.title}">
+          <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${videoTitle}">
           <div class="video-titles">
-            <img id="video-title-icon" src="icon.jpg" alt="">
-            <div class="video-title">${video.snippet.title}</div>
+            <div class="video-title">${videoTitle}</div>
           </div>
         </a>
       `;
       videosContainer.appendChild(videoCard);
     });
   } catch (error) {
-    console.error(error);
-    alert("エラーが発生しました。もう一度お試しください。");
+    console.error("エラー:", error);
   }
 }
+
+
+
 
 // 検索ボタンのイベントリスナー
 document.getElementById("searchButton").addEventListener("click", async () => {
@@ -152,8 +207,35 @@ document.getElementById("searchButton").addEventListener("click", async () => {
   }
 });
 
+
+// ポップアップを表示する関数
+function showPopup(videoId) {
+  const videoPopup = document.getElementById("videoPopup");
+  const videoFrame = document.getElementById("videoFrame");
+  videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  videoPopup.style.display = "block";
+}
+
+// ポップアップを閉じる関数
+document.getElementById("closePopup").addEventListener("click", () => {
+  const videoPopup = document.getElementById("videoPopup");
+  const videoFrame = document.getElementById("videoFrame");
+  videoFrame.src = ""; // フレームをクリアして再生を停止
+  videoPopup.style.display = "none";
+});
+
+// 各動画カードにイベントリスナーを追加
+document.querySelectorAll(".video-card a").forEach(link => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault(); // デフォルトのリンク動作を無効化
+    const videoId = link.href.split("videoId=")[1];
+    showPopup(videoId);
+  });
+});
+
+
 // 初期表示
-displayVideos();
+displayVideosByPlaylist();
 
 
 

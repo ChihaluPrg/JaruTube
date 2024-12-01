@@ -1,51 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="style1.css">
-  <title>JaruTube</title>
-  
-</head>
-<body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style1.css" />
+    <title>JaruTube</title>
+  </head>
+  <body>
     <div class="header">
-        <div class="logo_menu">
-          <div class="hum" onclick="toggleMenu()">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div class="side_menu" id="sidemenu">
-              <div class="hum" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <a href="index.html"
-                ><img class="logo-a" src="logo.png" alt="ロゴ"
-              /></a>
-              <div class="back"></div>
-            </div>
-      
-            <div class="overlay" id="overlay"></div>
-            <a href="index.html"><img class="logo-b" src="logo.png" alt="ロゴ" /></a>
+      <div class="logo_menu">
+        <div class="hum" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-  <div class="search-container">
-    <input type="text" id="searchQuery" placeholder="動画を検索">
-    <button id="searchButton">検索</button>
-  </div>
-  <div class="container">
-    <div class="video-player">
-      <iframe id="videoPlayer" width="100%" height="450" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    <div class="sidebar">
-      <h2 class="video-title">その他の動画</h2>
-      <div id="otherVideos"></div>
-    </div>
-  </div>
+        <div class="side_menu" id="sidemenu">
+          <div class="hum" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <a href="index.html"
+            ><img class="logo-a" src="logo.png" alt="ロゴ"/></a>
+          <div class="back"></div>
+        </div>
 
-  <script src="script1.js"></script>
-</body>
+        <div class="overlay" id="overlay"></div>
+        <a href="index.html"
+          ><img class="logo-b" src="logo.png" alt="ロゴ"
+        /></a>
+      </div>
+      <div class="search-container">
+        <input type="text" id="searchQuery" placeholder="検索" />
+        <button id="searchButton">検索</button>
+      </div>
+    </div>
+    
+
+    <div class="container">
+      <div class="video-player">
+        <iframe
+          id="videoPlayer"
+          width="100%"
+          height="450"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="sidebar">
+        <div id="otherVideos"></div>
+      </div>
+    </div>
+
+    <script src="script1.js"></script>
+  </body>
 </html>
