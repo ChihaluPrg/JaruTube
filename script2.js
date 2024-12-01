@@ -128,7 +128,7 @@ document.querySelectorAll(".list a").forEach((link) => {
 
 
 
-// 初期表示時に特定のプレイリストを表示
+// ページが読み込まれたときに指定したプレイリストを初期表示
 document.addEventListener("DOMContentLoaded", () => {
   const initialPlaylistId = "PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5"; // 初期表示するプレイリストID
   displayVideosByPlaylist(initialPlaylistId);
@@ -149,9 +149,26 @@ document.querySelectorAll(".list a").forEach((link) => {
   });
 });
 
-// プレイリストの動画を表示する関数
-async function displayVideosByPlaylist(playlistId) {
+document.addEventListener("DOMContentLoaded", async () => {
+  const loadingMessage = document.getElementById("loadingMessage");
+  loadingMessage.style.display = "block"; // 取得中メッセージを表示
+
   try {
+    const initialPlaylistId = "PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5"; // 初期表示するプレイリストID
+    await displayVideosByPlaylist(initialPlaylistId);
+  } catch (error) {
+    console.error("初期読み込み時のエラー:", error);
+  } finally {
+    loadingMessage.style.display = "none"; // 初期読み込み完了後に非表示
+  }
+});
+
+async function displayVideosByPlaylist(playlistId) {
+  const loadingMessage = document.getElementById("loadingMessage");
+  
+  try {
+    loadingMessage.style.display = "block"; // 動画取得処理の開始時にメッセージを表示
+
     let allVideos = [];
     let nextPageToken = "";
 
@@ -190,8 +207,21 @@ async function displayVideosByPlaylist(playlistId) {
     });
   } catch (error) {
     console.error("エラー:", error);
+  } finally {
+    loadingMessage.style.display = "none"; // 処理が完了した後にメッセージを非表示
   }
 }
+
+
+// オーバーレイをクリックしたときメニューを閉じる
+document.getElementById("overlay").addEventListener("click", () => {
+  const sideMenu = document.getElementById("sidemenu");
+  const overlay = document.getElementById("overlay");
+
+  sideMenu.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = "auto";
+});
 
 
 
@@ -235,7 +265,7 @@ document.querySelectorAll(".video-card a").forEach(link => {
 
 
 // 初期表示
-displayVideosByPlaylist();
+initialPlaylistId();
 
 
 

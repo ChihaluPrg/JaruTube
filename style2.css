@@ -199,6 +199,64 @@ a,ul,li {
   text-align: left;
 }
 
+#loadingMessage {
+    z-index: 10000;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7); /* 背景色を少し透過させる */
+    color: white; /* テキスト色 */
+    padding: 20px;
+    border-radius: 8px; /* 角を丸くする */
+    font-size: 1.5em; /* フォントサイズ */
+    text-align: center; /* 中央揃え */
+    opacity: 0; /* 初期状態で透明 */
+    animation: fadeIn 2s forwards, fadeOut 1s 60s forwards;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  #loadingMessage::after {
+    content: '';
+    display: block;
+    margin: 10px auto;
+    width: 30px;
+    height: 30px;
+    border: 4px solid #fff;
+    border-top: 4px solid transparent; /* 回転部分を透明にする */
+    border-radius: 50%; /* 円形にする */
+    animation: spin 1s linear infinite; /* 回転アニメーション */
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  
+  
+
 .thumbnail-container {
     position: relative; /* 子要素を配置する基準にする */
   }
