@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style2.css" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <title>JaruTube / アイランド</title>
+    <title>JaruTube</title>
   </head>
   <body>
     <div class="header">
@@ -15,29 +15,28 @@
           <span></span>
           <span></span>
         </div>
+        
         <div class="side_menu" id="sidemenu">
-          <div class="hum" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+            <div class="hum2" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
           <a href="index.html"><img class="logo-a" src="logo.png" alt="ロゴ"/></a>
           <div class="list">
-            <ul id="playlistLinks">
-              <li><a href="#" data-playlist-id="PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5">全ての動画</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99ikod2rVdEk05_oUPTv_hBBz">朝メシ食う奴</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99incJsJwecCThKHP7oZs-ezp">日常撮る奴</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99inbkD2YXOiduokWKwk9qK1j">真夜中に電話する奴</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99ikxrZXoP5wYvT-JHjtrouh9">リモートする奴</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99imeo7Ff1qhiZDMNBEbT84-X">奴劇場 フレンドリー捜査官</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99im0j6U6dUMuwjG8ZDhFvUkC">第17回祇園お笑い新人大賞</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99ikKE0TOjQ0sPCoXJUPvC2DV">第19回祇園お笑い新人大賞</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99inhauDD7A5BBqbhBl7k08VC">ハズレの先生が担任になった奴</a></li>
-              <li><a href="#" data-playlist-id="PL52aY2wM99ikQ36hBB6OunvfOFjWEi8Th">ウルフルズに影響されてる奴</a></li>
+            <ul id="playlistLinks" class="playlistLink" >
+              <li><a class="playlist" href="#" data-playlist-id="PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5">全ての動画</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99ikod2rVdEk05_oUPTv_hBBz">朝メシ食う奴</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99incJsJwecCThKHP7oZs-ezp">日常撮る奴</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99inbkD2YXOiduokWKwk9qK1j">真夜中に電話する奴</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99ikxrZXoP5wYvT-JHjtrouh9">リモートする奴</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99imeo7Ff1qhiZDMNBEbT84-X">奴劇場 フレンドリー捜査官</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99im0j6U6dUMuwjG8ZDhFvUkC">第17回祇園お笑い新人大賞</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99ikKE0TOjQ0sPCoXJUPvC2DV">第19回祇園お笑い新人大賞</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99inhauDD7A5BBqbhBl7k08VC">ハズレの先生が担任になった奴</a></li>
+              <li><a class="playlist" href="#" data-playlist-id="PL52aY2wM99ikQ36hBB6OunvfOFjWEi8Th">ウルフルズに影響されてる奴</a></li>
             </ul>
           </div>
-          
-          <div class="back"></div>
         </div>
 
         <div class="overlay" id="overlay"></div>
@@ -48,6 +47,13 @@
       <div class="search-container">
         <input type="text" id="searchQuery" placeholder="検索" />
         <button id="searchButton">検索</button>
+      </div>
+
+      <div class="towerpage">
+        <a href="#">
+          <p>ジャルジャルタワー</p>
+          <img src="tower-logo.jpg" alt="タワーロゴ">
+        </a>
       </div>
     </div>
     <div id="loadingMessage" style="display: none;">プレイリストから動画を取得中です</div>

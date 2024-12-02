@@ -2,6 +2,50 @@ const API_KEY = "AIzaSyBbY4j6K7TbMLIX1X1PfjxPXW4K8qDm7n0"; // APIキーを入力
 const PLAYLIST_ID = "PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5"; // プレイリストID
 const CHANNEL_ID = 'UCf-wG6PlxW7rpixx1tmODJw'; // 対象のチャンネルID
 const MAX_RESULTS = 40;
+// モーダル要素を取得
+const videoPopup = document.getElementById("videoPopup");
+const videoFrame = document.getElementById("videoFrame");
+const closePopup = document.getElementById("closePopup");
+
+
+// 動画カードをクリックした際にモーダルを表示する関数
+function openVideoModal(videoId) {
+  videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  videoPopup.style.display = "block";
+  document.body.style.overflow = "hidden"; // 背景スクロールを無効化
+}
+
+// モーダルを閉じる関数
+function closeVideoModal() {
+  videoPopup.style.display = "none";
+  videoFrame.src = ""; // 再生を停止
+  document.body.style.overflow = "auto"; // 背景スクロールを有効化
+}
+
+// 閉じるボタンにイベントリスナーを追加
+closePopup.addEventListener("click", closeVideoModal);
+
+// 動画カードにクリックイベントを追加
+// 動画カードにクリックイベントを追加
+document.getElementById("videos").addEventListener("click", (event) => {
+  const videoCard = event.target.closest(".video-card");
+  if (!videoCard) return;
+
+  // デフォルトのリンク遷移を無効化
+  event.preventDefault();
+
+  // 動画IDを取得してモーダルを開く
+  const videoId = videoCard.querySelector("a").href.split("videoId=")[1];
+  if (videoId) openVideoModal(videoId);
+});
+
+
+// オーバーレイ部分をクリックした際にモーダルを閉じる
+window.addEventListener("click", (event) => {
+  if (event.target === videoPopup) {
+    closeVideoModal();
+  }
+});
 
 // 配列をシャッフルする関数
 function shuffleArray(array) {
@@ -196,10 +240,15 @@ async function displayVideosByPlaylist(playlistId) {
       const videoCard = document.createElement("div");
       videoCard.className = "video-card";
       videoCard.innerHTML = `
-        <a href="video.html?videoId=${videoId}">
-          <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${videoTitle}">
+       <a href="video.html?videoId=${videoId}">
+          <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${video.snippet.title}">
           <div class="video-titles">
-            <div class="video-title">${videoTitle}</div>
+            <img id="video-title-icon" src="icon.jpg" alt="">
+            <div class="video-title">${video.snippet.title}
+            
+            </div>
+            <p class="ch-name">ジャルジャルアイランド JARUJARU ISLAND</p>
+            
           </div>
         </a>
       `;
@@ -238,56 +287,65 @@ document.getElementById("searchButton").addEventListener("click", async () => {
 });
 
 
-// ポップアップを表示する関数
-function showPopup(videoId) {
-  const videoPopup = document.getElementById("videoPopup");
-  const videoFrame = document.getElementById("videoFrame");
-  videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-  videoPopup.style.display = "block";
-}
-
-// ポップアップを閉じる関数
-document.getElementById("closePopup").addEventListener("click", () => {
-  const videoPopup = document.getElementById("videoPopup");
-  const videoFrame = document.getElementById("videoFrame");
-  videoFrame.src = ""; // フレームをクリアして再生を停止
-  videoPopup.style.display = "none";
-});
-
-// 各動画カードにイベントリスナーを追加
-document.querySelectorAll(".video-card a").forEach(link => {
-  link.addEventListener("click", (event) => {
-    event.preventDefault(); // デフォルトのリンク動作を無効化
-    const videoId = link.href.split("videoId=")[1];
-    showPopup(videoId);
-  });
-});
-
-
 // 初期表示
 initialPlaylistId();
-
-
-
-
 // メニューの開閉を制御する関数
 function toggleMenu() {
   const sideMenu = document.getElementById("sidemenu");
-  const hum = document.querySelector(".hum");
+  const hum2 = document.querySelector(".hum2");
   const overlay = document.getElementById("overlay");
+  const playlistLinks = document.querySelectorAll('.playlist');
 
   sideMenu.classList.toggle("open");
-  hum.classList.toggle("open");
+  hum2.classList.toggle("open");
   overlay.classList.toggle("active");
-  document.body.style.overflow = sideMenu.classList.contains("open") ? "hidden" : "auto";
+
+  if (sideMenu.classList.contains("open")) {
+    console.log("Menu opened");
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`;
+
+    // メニューが開いたときに各リンクに 'open' クラスを追加
+    playlistLinks.forEach(link => {
+      link.classList.add('open');
+
+      // リンクにクリックイベントを追加してメニューを閉じる
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+  } else {
+    console.log("Menu toggled - closed");
+
+    // メニューが閉じたときに各リンクから 'open' クラスを削除
+    playlistLinks.forEach(link => {
+      link.classList.remove('open');
+    });
+
+    document.body.style.overflow = "auto";
+    document.body.style.paddingRight = "0";
+  }
 }
 
-// オーバーレイをクリックしたときメニューを閉じる
-document.getElementById("overlay").addEventListener("click", () => {
+// メニューを閉じる共通関数
+function closeMenu() {
   const sideMenu = document.getElementById("sidemenu");
   const overlay = document.getElementById("overlay");
+  const body = document.body;
+  const playlistLinks = document.querySelectorAll('.playlist');
 
   sideMenu.classList.remove("open");
   overlay.classList.remove("active");
-  document.body.style.overflow = "auto";
-});
+  body.style.overflow = "auto";
+  body.style.paddingRight = "0";
+
+  // 各リンクから 'open' クラスを削除
+  playlistLinks.forEach(link => {
+    link.classList.remove('open');
+  });
+
+  console.log("Menu closed"); // デバッグ用
+}
+
+// オーバーレイをクリックしたときメニューを閉じる
+document.getElementById("overlay").addEventListener("click", closeMenu);
