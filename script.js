@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   loadingMessage.style.display = "block"; // 取得中メッセージを表示
 
   try {
-    const initialPlaylistId = "PLsRy2iansSOCrqZ24JhoeAFl1sGW196x7"; // 初期表示するプレイリストID
+    const initialPlaylistId = "PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5"; // 初期表示するプレイリストID
     await displayVideosByPlaylist(initialPlaylistId);
   } catch (error) {
     console.error("初期読み込み時のエラー:", error);
@@ -235,9 +235,9 @@ async function displayVideosByPlaylist(playlistId) {
       videoCard.className = "video-card";
       videoCard.innerHTML = `
         <a href="video.html?videoId=${videoId}">
-          <img class="card-img" src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${video.snippet.title}">
+          <img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="${video.snippet.title}">
           <div class="video-titles">
-            <img id="video-title-icon" src="tower-logo.jpg" alt="">
+            <img id="video-title-icon" src="icon.jpg" alt="">
             <div class="video-title">${video.snippet.title}</div>
             
           </div>

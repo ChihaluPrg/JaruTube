@@ -206,14 +206,19 @@ a {
   background-color: #fff;
 }
 
+#playlistLinks.open{
+  padding-left: 10px;
+  font-size: 0.93rem;
+  background-color: #fff;
+}
+
 .playlistLink li a {
   display: flex;
   padding: 0 10px;
   align-items: center;
 }
 
-.playlistLink,
-li:hover {
+.playlistLink, li:hover {
   background-color: #0000000e;
   border-radius: 12px;
 }
@@ -260,7 +265,10 @@ li:hover {
   display: flex;
   height: 49px;
 }
-
+.side_menu a {
+  display: flex;
+  height: 49px;
+}
 .overlay {
   position: fixed;
   top: 0;
@@ -330,6 +338,10 @@ li:hover {
   transform-style: preserve-3d; /* 3D変換を反映させる */
 }
 
+.card-img {
+  border-radius: 7%;
+}
+
 .video-card {
   background: #fff;
   border-radius: 8px;
@@ -346,23 +358,29 @@ li:hover {
 }
 
 .video-card img {
+  display: flex;
+  align-items: start;
   width: 100%;
   height: auto;
 }
 
 .video-titles {
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: start;
   margin-left: 10px;
   margin-bottom: 10px;
 }
 
 .video-title {
   display: flex;
-  padding: 5px 10px 10px 10px;
-  font-size: 0.85rem;
+  padding: 8px 10px 10px 10px;
+  font-size: 0.9rem;
   font-weight: 430;
   color: #333;
+  flex-direction: column;
+  justify-content: flex-end;
   text-align: left;
 }
 
@@ -379,7 +397,7 @@ li:hover {
   font-size: 1.5em; /* フォントサイズ */
   text-align: center; /* 中央揃え */
   opacity: 0; /* 初期状態で透明 */
-  animation: fadeIn 2s forwards, fadeOut 1s 60s forwards;
+  animation: fadeIn 0.5s forwards, fadeOut 0.5s 60s forwards;
 }
 
 @keyframes fadeIn {
@@ -409,7 +427,7 @@ li:hover {
   border: 4px solid #fff;
   border-top: 4px solid transparent; /* 回転部分を透明にする */
   border-radius: 50%; /* 円形にする */
-  animation: spin 1s linear infinite; /* 回転アニメーション */
+  animation: spin 0.8s linear infinite; /* 回転アニメーション */
 }
 
 @keyframes spin {
