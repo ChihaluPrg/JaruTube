@@ -79,6 +79,27 @@ async function fetchChannelVideos(channelId, maxResults = 40, pageToken = "") {
   }
   return response.json();
 }
+document.querySelectorAll(".list a").forEach((link) => {
+  link.addEventListener("click", async (event) => {
+    event.preventDefault(); // デフォルト動作を無効化
+
+    // ページを一番上までスクロール
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // スムーズなスクロールを指定
+    });
+
+    // 選択されたプレイリストIDを取得
+    const playlistId = event.target.getAttribute("data-playlist-id");
+
+    if (playlistId) {
+      console.log(`選択されたプレイリストID: ${playlistId}`); // デバッグ用
+      await displayVideosByPlaylist(playlistId); // プレイリストに基づいて動画を表示
+    } else {
+      console.error("プレイリストIDが取得できませんでした。");
+    }
+  });
+});
 
 // 検索を行う関数
 async function searchVideos(query) {

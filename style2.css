@@ -3,7 +3,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 a,
 ul,
 li {
@@ -486,3 +488,7 @@ iframe {
   cursor: pointer;
   color: #000;
 }
+#video-title-icon {
+  margin-top: 10px;
+}
+
