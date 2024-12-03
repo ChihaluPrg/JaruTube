@@ -1,4 +1,4 @@
-const API_KEY = "AIzaSyBbY4j6K7TbMLIX1X1PfjxPXW4K8qDm7n0"; // APIキーを入力
+const API_KEY = ""; // APIキーを入力
 const PLAYLIST_ID = "PLsRy2iansSOBfjNIy-9dwsF0s4-5ALMW5"; // プレイリストID
 const CHANNEL_ID = 'UCf-wG6PlxW7rpixx1tmODJw'; // 対象のチャンネルID
 const MAX_RESULTS = 40;
@@ -10,10 +10,11 @@ const closePopup = document.getElementById("closePopup");
 
 // 動画カードをクリックした際にモーダルを表示する関数
 function openVideoModal(videoId) {
-  videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  videoFrame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; // rel=0 を追加
   videoPopup.style.display = "block";
   document.body.style.overflow = "hidden"; // 背景スクロールを無効化
 }
+
 
 // モーダルを閉じる関数
 function closeVideoModal() {
@@ -100,6 +101,40 @@ document.querySelectorAll(".list a").forEach((link) => {
     }
   });
 });
+
+let currentVideoIndex = 0; // 現在の動画のインデックス
+let videoList = []; // 動画情報を格納する配列
+
+// 動画を再生する関数
+function playNextVideo() {
+  if (currentVideoIndex < videoList.length - 1) {
+    currentVideoIndex++; // 次の動画のインデックスを設定
+    const nextVideo = videoList[currentVideoIndex];
+    videoFrame.src = `https://www.youtube.com/embed/${nextVideo.id.videoId}?autoplay=1`;
+  } else {
+    console.log("これ以上再生する動画はありません。");
+  }
+}
+
+// 動画が終わったときのイベントリスナーを追加
+videoFrame.addEventListener("ended", playNextVideo);
+
+// 動画のリストを取得する関数
+async function fetchAndDisplayVideos(playlistId) {
+  try {
+    const data = await fetchPlaylistVideos(playlistId, MAX_RESULTS);
+    videoList = data.items; // 動画情報を格納
+    currentVideoIndex = 0; // 再生インデックスをリセット
+
+    if (videoList.length > 0) {
+      const firstVideo = videoList[currentVideoIndex];
+      videoFrame.src = `https://www.youtube.com/embed/${firstVideo.id.videoId}?autoplay=1`;
+    }
+  } catch (error) {
+    console.error("動画の取得に失敗しました。", error);
+  }
+}
+
 
 // 検索を行う関数
 async function searchVideos(query) {

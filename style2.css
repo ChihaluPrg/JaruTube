@@ -5,7 +5,12 @@ body {
 }
 html {
   scroll-behavior: smooth;
+  
 }
+.ytp-videowall-still-image {
+  display: none;
+}
+
 a,
 ul,
 li {
